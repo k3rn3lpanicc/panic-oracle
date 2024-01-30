@@ -1,6 +1,6 @@
-import { fetcher } from "./IFetcher";
+import { Fetcher } from "./IFetcher";
 
-class RandomNumberGen implements fetcher{
+class RandomNumberGen implements Fetcher{
     async getAnswer(): Promise<number> {
         return Math.random();    
     }

@@ -1,5 +1,5 @@
-interface fetcher {
+interface Fetcher {
     getAnswer(): Promise<number>
 }
 
-export {fetcher};
+export {Fetcher};
