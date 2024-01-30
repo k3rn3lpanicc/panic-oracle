@@ -31,6 +31,11 @@ describe("Panic Oracle", function(){
             expect(result.answer).to.be.equal(1000);
         });
         
-
+        it("Should get the latest round's ID", async function(){
+            const {oracle, owner, firstUser} = await deployContract();
+            await oracle.connect(owner).setNewRound(1000);
+            const result = await oracle.connect(firstUser).getLatestRoundID();
+            expect(result).to.be.equal(65304100000);
+        });
     });
 })
