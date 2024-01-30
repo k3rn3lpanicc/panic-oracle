@@ -1,73 +1,92 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Panic Oracle
+A simple version of an oracle system which connects the outside world to the blockchain's isolated smart contracts.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Usage
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Prerequisites
 
-## Description
+Clone the repository, open a shell in the root directory, and run `npm install`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Then move to the `oracle contract` folder, and run `npm install`
 
-## Installation
+## Run unit tests
+
+Unit tests are implemented for the Solidity smart contract of the oracle, move into the `oracle contract` folder, 
+and run the following command: `npm run test`
+
+The results should be like this:
 
 ```bash
-$ npm install
+➜ npm run test
+
+> erc20token-example@1.0.0 test
+> npx hardhat test
+
+
+
+  Panic Oracle
+    Deployment
+      ✔ Should deploy the contract (4625ms)
+      ✔ Should set the new round by the owner (68ms)
+      ✔ Should not be able to set new round by another person (87ms)
+      ✔ Should get the latest round's data (46ms)
+
+
+  4 passing (5s)
 ```
 
-## Running the app
+## Deploy the contract
+
+If you need to deploy the contract on chain, move to the `oracle contract` folder, and run the following command: `npm run deploy:mumbai`
+
+This would deploy the contract to Polygon Mumbai testnet.
+
+** Note: in the `oracle contract` folder, create an `.env` file and fill these properties based on your information:
+
+- MUMBAI_API_KEY="YOUR MUMBAI BLOCK EXPLORER API KEY HERE"
+- PRIVATE_KEY="YOUR WALLETS PRIVATE KEY HERE"
+
+The result of deploying the contract would look like this:
 
 ```bash
-# development
-$ npm run start
+➜ npm run deploy:mumbai
 
-# watch mode
-$ npm run start:dev
+> erc20token-example@1.0.0 deploy:mumbai
+> npx hardhat run --network polygonMumbai ./scripts/deploy.ts
 
-# production mode
-$ npm run start:prod
+[ ☕️ ] Deploying the Panic Oracle to chain ...
+[ ✅ ] Panic oracle deployed to: 0xe39524f263b4F72c327eD7443730ECf3abF1370a
+[ ☕️ ] Waiting 20 seconds ...
+[ ☕️ ] Verifying the contract's source code on block explorer ...
+Successfully submitted source code for contract
+contracts/PanicOracle.sol:PanicOracle at 0xe39524f263b4F72c327eD7443730ECf3abF1370a
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract PanicOracle on the block explorer.
+https://mumbai.polygonscan.com/address/0xe39524f263b4F72c327eD7443730ECf3abF1370a#code
+[ ✅ ] Contract's source code verified on block explorer.
 ```
 
-## Test
+## Run the oracle
+
+To run the oracle, first you need to create an `.env` file in the project folder and fill in these information:
+
+- CONTRACT_ADDRESS="THE CONTRACT ADDRESS THAT YOUVE DEPLOYED"
+- PRIVATEKEY="THE PRIVATE KEY OF THE ORACLE"
+
+Then you can simply run: `npm run start:dev` and the project would start in development mode
+
+Each 30 seconds, the private key that you've put in the env file would send a transaction to the oracle contract, so make sure you have enough funds beforehand.
+
+The result of running the oracle would look like this:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+[ ☕️ ] Sending new round data to contract ...
+[ ✅ ] Transaction submitted to contract, txHash: 0x91303bedfc4bda1404ce4cccaa9a53679475da28f886383e5878539d7a635646
+[ ☕️ ] Sending new round data to contract ...
+[ ✅ ] Transaction submitted to contract, txHash: 0x76d48c98c4478d811f436ce88d51373577872ca1bfc3adbb81b3e75d1696049b
+[ ☕️ ] Sending new round data to contract ...
+[ ✅ ] Transaction submitted to contract, txHash: 0xc74070a335a6d3ac429acac10f01c2255ce07591219f3ac0d0f27872267e61ca
+[ ☕️ ] Sending new round data to contract ...
+...
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
