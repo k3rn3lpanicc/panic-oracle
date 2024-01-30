@@ -30,7 +30,7 @@ The results should be like this:
       ✔ Should set the new round by the owner (68ms)
       ✔ Should not be able to set new round by another person (87ms)
       ✔ Should get the latest round's data (46ms)
-
+      ✔ Should get the latest round's ID (46ms)
 
   4 passing (5s)
 ```
