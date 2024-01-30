@@ -90,3 +90,13 @@ The result of running the oracle would look like this:
 [ ☕️ ] Sending new round data to contract ...
 ...
 ```
+## Dockerize
+
+First make sure you've filled in your `.env` files, then run the following command: `docker build -t panic-oracle .`
+
+This would build the docker image for your oracle along with your own private key and contract address.
+
+You can run the following command to run the docker image from your computer: `docker run --rm -p 3000:3000 panic-oracle`
+
+Also you can publish your docker image to dockerhub if you need to but note that the .env file contains critical information about your accounts and you must try to protect that sensitive information
+
