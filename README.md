@@ -32,7 +32,7 @@ The results should be like this:
       ✔ Should get the latest round's data (46ms)
       ✔ Should get the latest round's ID (46ms)
 
-  4 passing (5s)
+  5 passing (5s)
 ```
 
 ## Deploy the contract
